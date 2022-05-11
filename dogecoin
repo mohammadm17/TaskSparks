@@ -1,0 +1,24 @@
+import numpy as np
+from datetime import datetime
+import smtplib
+import pandas as pd
+import time
+from selenium import webdriver#For Prediction
+from sklearn.linear_model import LinearRegression
+from sklearn import preprocessing, cross_validation, svm
+start = datetime(2017, 1, 1)
+end = datetime.now()#Outputting the Historical data into a .csv for later use
+df = pd.read_csv('dogecoin.csv')
+
+df['prediction'] = df['close'].shift(-1)
+df.dropna(inplace=True)
+forecast_time = int(days)
+X = np.array(df.drop(['prediction'], 1))
+Y = np.array(df['prediction'])
+X = preprocessing.scale(X)
+X_prediction = X[-forecast_time:]X_train, X_test, Y_train, Y_test =         cross_validation.train_test_split(X, Y, test_size=0.5)
+clf = LinearRegression()
+clf.fit(X_train, Y_train)
+prediction = (clf.predict(X_prediction))
+last_row = df.tail(1)
+if (float(prediction[4]) > (float(last_row['close']))):output = ("\n\nStock:" + str(stock) + "\nPrior Close:\n" +         str(last_row['close']) + "\n\nPrediction in 1 Day: " + str(prediction[0]) + "\nPrediction in 5 Days: " + str(prediction[4]))
